@@ -25,12 +25,14 @@ export const add = (account, password, character) => {
   });
 };
 
+// 重置密码
 export const resetPassword = (id) => {
   return post('/user/reset/password', {
     id,
   });
 };
 
+// 修改角色请求
 export const editCharacter = (characterId, userId) => {
   return post('/user/update/character', {
     character: characterId,

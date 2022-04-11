@@ -15,10 +15,12 @@ export default defineComponent({
     show: Boolean,
   },
   setup(props, context) {
+    // 获取角色列表的信息
     const { characterInfo } = store.state;
 
     const addForm = reactive(clone(defaultFormData));
 
+    // 设置默认的角色，该id是数据库中角色的id，比如成员对应12345，管理员对应789
     addForm.character = characterInfo[1]._id;
 
     const close = () => {

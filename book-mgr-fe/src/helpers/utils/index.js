@@ -38,6 +38,7 @@ export const clone = (obj) => {
   return JSON.parse(JSON.stringify(obj));
 };
 
+// 书籍详情页时间展示优化，补全
 const tsPadStart = (str) => {
   str = String(str);
 

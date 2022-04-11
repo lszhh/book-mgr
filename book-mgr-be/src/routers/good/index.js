@@ -17,6 +17,7 @@ const InventoryLog = mongoose.model('InventoryLog');
 // 获取分类表
 const Classify = mongoose.model('GoodClassify')
 
+// 把查找书籍封装成函数
 const findGoodOne = async (id) => {
   const one = await Good.findOne({
     _id: id,
@@ -51,6 +52,7 @@ router.get('/list', async (ctx) => {
   if (_id) {
     query.classify = _id
   }
+  // 用于检索书籍的keyword 
   if (keyword) {
     query.name = keyword
   }
@@ -86,6 +88,7 @@ router.get('/list', async (ctx) => {
   }
 })
 
+// 编写删除接口
 router.delete('/:id', async (ctx) => {
   const {
     id,
@@ -106,6 +109,7 @@ router.delete('/:id', async (ctx) => {
 router.post('/update/count', async (ctx) => {
   const {
     id,
+    // 出库还是入库的标记
     type,
   } = getBody(ctx)
 
@@ -116,6 +120,7 @@ router.post('/update/count', async (ctx) => {
 
   num = Number(num)
 
+  // 出库入库中，查找书籍
   const good = await Good.findOne({
     _id: id
   }).exec()
@@ -137,6 +142,7 @@ router.post('/update/count', async (ctx) => {
     num = -Math.abs(num)
   }
 
+  // 改变count的值
   good.count += num;
 
   // 如果库存为负数
@@ -148,6 +154,7 @@ router.post('/update/count', async (ctx) => {
     return
   }
 
+  // 同步修改到数据库
   const res = await good.save()
 
   // 获取操作者
@@ -171,6 +178,7 @@ router.post('/update/count', async (ctx) => {
 
 })
 
+// 修改图书
 router.post('/update', async (ctx) => {
   const {
     id,
@@ -207,6 +215,7 @@ router.post('/update', async (ctx) => {
   };
 });
 
+// 详情页获取数据的接口
 router.get('/detail/:id', async (ctx) => {
   const {
     id,
@@ -230,6 +239,7 @@ router.get('/detail/:id', async (ctx) => {
     code: 1,
   };
 });
+
 
 router.post('/addMany', async (ctx) => {
   const {

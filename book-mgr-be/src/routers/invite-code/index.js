@@ -2,8 +2,6 @@ const Router = require('@koa/router');
 const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
 
-// const { getBody } = require('../../helpers/utils');
-
 const InviteCode = mongoose.model('InviteCode');
 
 const router = new Router({
@@ -11,11 +9,13 @@ const router = new Router({
 });
 
 router.post('/add', async (ctx) => {
-  // 原先写法，一获取到请求，就生成一条Schema，并且同步到数据库
+  // 接收变量，创建几条
   const {
+    // 这里是默认为1，若有其它数字，就更改为别的数字
     count = 1,
   } = ctx.request.body;
 
+  // 循环创建多个邀请码
   const arr = [];
 
   for (let i = 0; i < count; i++) {
@@ -25,6 +25,7 @@ router.post('/add', async (ctx) => {
     });
   }
 
+  // 往数据库插入多条记录
   const res = await InviteCode.insertMany(arr);
 
   ctx.body = {
@@ -34,6 +35,7 @@ router.post('/add', async (ctx) => {
   };
 });
 
+// 获取列表接口
 router.get('/list', async (ctx) => {
   let {
     page,
@@ -66,6 +68,7 @@ router.get('/list', async (ctx) => {
   };
 });
 
+// 删除接口
 router.delete('/:id', async (ctx) => {
   const {
     id,

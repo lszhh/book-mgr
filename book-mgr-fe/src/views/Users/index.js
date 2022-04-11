@@ -58,6 +58,7 @@ export default defineComponent({
       current: {},
     });
 
+    // 获取用户列表
     const getUser = async () => {
       const res = await user.list(curPage.value, 10, keyword.value);
 
@@ -68,10 +69,12 @@ export default defineComponent({
         });
     };
 
+    // 组件一挂载就调用获得列表
     onMounted(() => {
       getUser();
     });
 
+    // 发送删除请求
     const remove = async ({ _id }) => {
       const res = await user.remove(_id);
 
@@ -82,13 +85,16 @@ export default defineComponent({
         });
     };
 
+    // 切页
     const setPage = (page) => {
       curPage.value = page;
 
       getUser();
     };
 
+    // 密码重置
     const resetPassword = async ({ _id }) => {
+      // 调用重置密码的接口
       const res = await user.resetPassword(_id);
 
       result(res)
@@ -97,6 +103,7 @@ export default defineComponent({
         });
     };
 
+    // 弹框的显示与隐藏
     const onSearch = () => {
       getUser();
       isSearch.value = !!keyword.value;
@@ -108,6 +115,7 @@ export default defineComponent({
       getUser();
     };
 
+    // 修改用户角色的弹框
     const onEdit = (record) => {
       editForm.current = record;
       editForm.character = record.character;
@@ -115,6 +123,7 @@ export default defineComponent({
       showEditCharacterModal.value = true;
     };
 
+    // 修改用户角色
     const updateCharacter = async () => {
       const res = await user.editCharacter(editForm.character, editForm.current._id);
 
@@ -126,7 +135,9 @@ export default defineComponent({
         });
     };
 
+    // 点击批量上传的事件
     const onUploadChange = ({ file }) => {
+      // 不仅上传后会触发，上传过程中也会触发
       if (file.response) {
         result(file.response)
           .success(async (key) => {

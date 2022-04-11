@@ -8,9 +8,11 @@ export default defineComponent({
     AppNav: Nav,
   },
   setup() {
+    // 退出操作
     const logout = () => {
+      // token清空
       setToken('');
-
+      // 重定向到'/'
       window.location.href = '/';
     };
 

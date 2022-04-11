@@ -1,5 +1,6 @@
 import store from '@/store';
 
+// 获取书籍分类列表
 export const getClassifyTitleById = (id) => {
   const one = store.state.goodClassify.find((item) => (item._id === id));
 

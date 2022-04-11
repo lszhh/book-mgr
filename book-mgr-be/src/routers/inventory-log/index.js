@@ -10,6 +10,7 @@ const router = new Router({
   prefix: '/inventory-log'
 })
 
+// 请求会匹配到/inventory-log/list，然后就执行下面的操作
 router.get('/list', async (ctx) => {
   const {
     type,
@@ -24,7 +25,7 @@ router.get('/list', async (ctx) => {
   size = Number(size)
   page = Number(page)
 
-  // 获取查询到几条日志
+  // total，获取查询到几条日志
   const total = await InventoryLog.find({
     type,
     goodName,

@@ -11,12 +11,15 @@ export default createStore({
     userCharacter: {},
   },
   mutations: {
+    // 全局设置角色信息列表
     setCharacterInfo(state, characterInfo) {
       state.characterInfo = characterInfo;
     },
+    // 全局设置用户信息
     setUserInfo(state, userInfo) {
       state.userInfo = userInfo;
     },
+    // 全局设置当前用户角色
     setUserCharacter(state, userCharacter) {
       state.userCharacter = userCharacter;
     },
@@ -25,6 +28,7 @@ export default createStore({
     },
   },
   actions: {
+    // 全局获取分类信息
     async getGoodClassify(store) {
       const res = await goodClassify.list();
 
@@ -33,6 +37,7 @@ export default createStore({
           store.commit('setGoodClassify', data);
         });
     },
+    // 获取角色信息
     async getCharacterInfo(store) {
       const res = await character.list();
 
@@ -41,6 +46,7 @@ export default createStore({
           store.commit('setCharacterInfo', data);
         });
     },
+    // 获取用户信息
     async getUserInfo(store) {
       const res = await user.info();
 
@@ -48,8 +54,6 @@ export default createStore({
         .success(({ data }) => {
           store.commit('setUserInfo', data);
           store.commit('setUserCharacter', getCharacterInfoById(data.character));
-
-          console.log(store.state);
         });
     },
   },

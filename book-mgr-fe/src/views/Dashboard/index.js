@@ -21,8 +21,10 @@ export default defineComponent({
       },
     });
 
+    // 获取基础信息
     const getBaseInfo = async () => {
       loading.value = true;
+      // 发送请求
       const res = await dashboard.baseInfo();
       loading.value = false;
 

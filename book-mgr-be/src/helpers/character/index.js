@@ -7,6 +7,7 @@
   4 修改权限
 `;
 
+// 定义权限的默认配置项！
 const defaultCharacters = [
   {
     title: '管理员',

@@ -43,7 +43,7 @@ export default defineComponent({
       {
         title: '生产日期',
         dataIndex: 'producedDate',
-        // 自定义slot插槽，名字为producedDate
+        // 自定义插槽slots，名字为producedDate！
         slots: {
           customRender: 'producedDate',
         },
@@ -65,17 +65,22 @@ export default defineComponent({
       });
     }
 
+    // 添加弹框的显示与隐藏标记
     const show = ref(false);
+    // 修改弹框的显示与隐藏标记
     const showUpdateModal = ref(false);
     const list = ref([]);
     const total = ref(0);
     const curPage = ref(1);
+    // 搜索框的值
     const keyword = ref('');
+    // 标记，返回按钮的显示与隐藏
     const isSearch = ref(false);
     const curEditGood = ref({});
 
     // 获取商品列表
     const getList = async () => {
+      // 调用list接口
       const res = await good.list({
         page: curPage.value,
         size: 10,
@@ -97,6 +102,7 @@ export default defineComponent({
       getList();
     });
 
+    // 页面改变时才会调用的函数setPage
     // 设置页码
     // 切页
     const setPage = (page) => {
@@ -109,6 +115,7 @@ export default defineComponent({
     const onSearch = () => {
       getList();
 
+      // 返回按钮显示与隐藏的标识，这么写是为了解决点击搜索框后，返回按钮还存在的bug 
       // 字符串非空的时候 -> true
       // 字符串为空的时候 -> false
       isSearch.value = Boolean(keyword.value);
@@ -122,7 +129,7 @@ export default defineComponent({
       getList();
     };
 
-    // 删除一本商品
+    // 删除一本书
     const remove = async ({ text: record }) => {
       const { _id } = record;
 
@@ -131,11 +138,11 @@ export default defineComponent({
       result(res)
         .success(({ msg }) => {
           message.success(msg);
-
           getList();
         });
     };
 
+    // 出入库
     const updateCount = (type, record) => {
       let word = '增加';
 
@@ -145,15 +152,18 @@ export default defineComponent({
 
       Modal.confirm({
         title: `要${word}多少库存`,
+        // 这段东西叫jsx，是react框架中经常应用来描述模板，vue能用是因为集成好了相关插件
         content: (
           <div>
-            <Input class="__good_input_count" />
+            <Input class="__good_input_count" /> 
           </div>
         ),
+        // 弹框点击OK时做的事情
         onOk: async () => {
+          // 取输入框的值
           const el = document.querySelector('.__good_input_count');
           let num = el.value;
-
+          // 调用接口
           const res = await good.updateCount({
             id: record._id,
             num,
@@ -162,6 +172,7 @@ export default defineComponent({
 
           result(res)
             .success((data) => {
+              // 这里是修改前端界面的库存值
               if (type === 'IN_COUNT') {
                 // 入库操作
                 num = Math.abs(num);
@@ -170,14 +181,14 @@ export default defineComponent({
                 num = -Math.abs(num);
               }
 
+              // 查找出该id是否在list中
               const one = list.value.find((item) => {
                 return item._id === record._id;
               });
 
+              // 若在，修改该列数据的count值
               if (one) {
-                console.log(num);
                 one.count = one.count + num;
-
                 message.success(`成功${word} ${Math.abs(num)} 本书`);
               }
             });
@@ -191,6 +202,7 @@ export default defineComponent({
       curEditgood.value = record;
     };
 
+    // 子组件直接修改父的不好，提供该方法返回给子组件使用！
     // 更新列表的某一行数据
     const updateCurGood = (newData) => {
       Object.assign(curEditgood.value, newData);

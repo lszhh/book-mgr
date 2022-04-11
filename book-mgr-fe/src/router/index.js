@@ -13,6 +13,7 @@ const routes = [
   {
     path: '/',
     name: 'BasicLayout',
+    // 如果是跳转到'/',就直接跳转到auth界面,退出的操作1
     redirect: '/auth',
     component: () => import(/* webpackChunkName: "BasicLayout" */ '../layout/BasicLayout/index.vue'),
     // 嵌套路由
@@ -76,6 +77,7 @@ const router = createRouter({
   routes,
 });
 
+
 router.beforeEach(async (to, from, next) => {
   let res = {};
 
@@ -89,12 +91,16 @@ router.beforeEach(async (to, from, next) => {
 
   const { code } = res;
 
+  // 如果没有token
   if (code === 401) {
+    // 如果要去的时候auth界面
     if (to.path === '/auth') {
+      // 让它去该界面,进行登录,避免白屏
       next();
       return;
     }
 
+    // 否则,提示信息,跳转到auth界面
     message.error('认证失败，请重新登入');
     next('/auth');
 
@@ -102,6 +108,7 @@ router.beforeEach(async (to, from, next) => {
   }
 
   if (!store.state.characterInfo.length) {
+    // 获取角色信息
     await store.dispatch('getCharacterInfo');
   }
 
@@ -115,8 +122,12 @@ router.beforeEach(async (to, from, next) => {
     reqArr.push(store.dispatch('getGoodClassify'));
   }
 
+  // 解决已经出页面，但是store.dispatch还没执行完，界面显示隐藏不合理的问题！
+  // Promise.all接收一个数组，这个数组全是promise，当该数组里面所有都resolove之后
+  // 再去next()，做接下来的事情，保证界面能全部渲染OK
   await Promise.all(reqArr);
 
+  // 以上全部执行完了,说明是登录OK了,有信息了,直接跳到good页面
   if (to.path === '/auth') {
     next('/goods');
     return;

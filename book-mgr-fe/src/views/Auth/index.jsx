@@ -107,13 +107,15 @@ export default defineComponent({
         .success(async ({msg, data: { user, token } }) => {
           message.success(msg);
 
+          // 登录成功后,设置token,该方法作为工具使用!
           setToken(token);
 
           await store.dispatch('getCharacterInfo');
 
+          // 登录成功后，全局保存信息
           store.commit('setUserInfo', user);
           store.commit('setUserCharacter', getCharacterInfoById(user.character));
-
+          // 跳转到goods页面去
           router.replace('/goods');
         });
     };

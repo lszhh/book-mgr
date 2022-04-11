@@ -12,7 +12,7 @@ const router = new Router({
   prefix: '/auth',
 });
 
-// 此处类似于中间件，请求进来就进行处理
+// 此处类似于中间件，请求会匹配到/auth/register，这里的register，就是下面这个，请求进来就进行处理
 router.post('/register', async (ctx) => {
   // 接收post提交过来的数据
   const {

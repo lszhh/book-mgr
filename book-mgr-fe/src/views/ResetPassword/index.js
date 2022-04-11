@@ -36,6 +36,7 @@ export default defineComponent({
       getList();
     });
 
+    // 修改状态并重置密码
     const changeStatus = async ({ _id }, status) => {
       const res = await resetPassword.updateStatus(_id, status);
 
@@ -47,6 +48,7 @@ export default defineComponent({
         });
     };
 
+    // 设置切页
     const setPage = (page) => {
       curPage.value = page;
       getList();

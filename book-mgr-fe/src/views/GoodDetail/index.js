@@ -74,7 +74,7 @@ export default defineComponent({
       result(res)
         .success(({ msg }) => {
           message.success(msg);
-
+          // 使用useRoute下的replace方法，和push方法有一些区别，push还可以返回上一页，不合理  
           router.replace('/goods');
         });
     };
@@ -98,7 +98,7 @@ export default defineComponent({
       getInventoryLog();
     };
 
-    return {
+    return { 
       d: detailInfo,
       formatTimestamp,
       remove,

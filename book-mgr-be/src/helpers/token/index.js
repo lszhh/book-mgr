@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 
 const User = mongoose.model('User');
 
+// 获取token！
 const getToken = (ctx) => {
   let { authorization } = ctx.header;
 
@@ -24,6 +25,7 @@ const verify = (token) => {
   });
 };
 
+// 中间件,来校验token是否正确!
 const middleware = (app) => {
   app.use(koaJwt({
     secret: config.JWT_SECRET,
@@ -44,13 +46,16 @@ const res401 = (ctx) => {
   };
 };
 
+// 中间件,token校验完成后,还要自己判断该用户是否还处于登录状态,若是,继续进行其它操作   
 const checkUser = async (ctx, next) => {
   const { path } = ctx;
+  // 如果是以下几个页面,就不用做校验
   if (path === '/auth/login' || path === '/auth/register' || path === '/forget-password/add') {
     await next();
     return;
   }
 
+  // 获取用户信息
   const { _id, account, character } = await verify(getToken(ctx));
 
   const user = await User.findOne({
@@ -75,6 +80,7 @@ const checkUser = async (ctx, next) => {
   await next();
 };
 
+// 中间件,捕捉token解析错误的时候 
 const catchTokenError = async (ctx, next) => {
   return next().catch((error) => {
     if (error.status === 401) {

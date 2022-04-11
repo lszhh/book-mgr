@@ -6,6 +6,7 @@ export const isAdmin = () => {
   return uc.name === 'admin';
 };
 
+// 通过id，来获取角色的title~
 export const getCharacterInfoById = (id) => {
   const { characterInfo } = store.state;
 

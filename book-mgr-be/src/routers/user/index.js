@@ -13,6 +13,7 @@ const router = new Router({
   prefix: '/user',
 });
 
+// 获取用户列表数据
 router.get('/list', async (ctx) => {
   let {
     page,
@@ -28,7 +29,7 @@ router.get('/list', async (ctx) => {
   if (keyword) {
     query.account = keyword;
   }
-
+// list常量接收查询到的数据
   const list = await User
     .find(query)
     .sort({
@@ -52,6 +53,7 @@ router.get('/list', async (ctx) => {
   };
 });
 
+// 删除用户
 router.delete('/:id', async (ctx) => {
   const {
     id,
@@ -68,6 +70,7 @@ router.delete('/:id', async (ctx) => {
   };
 });
 
+// 增加用户
 router.post('/add', async (ctx) => {
   const {
     account,
@@ -103,6 +106,7 @@ router.post('/add', async (ctx) => {
   };
 });
 
+// 重置密码
 router.post('/reset/password', async (ctx) => {
   const {
     id,
@@ -121,8 +125,10 @@ router.post('/reset/password', async (ctx) => {
     return;
   }
 
+  // 默认配置项，重置后的密码均为123123
   user.password = config.DEFAULT_PASSWORD;
 
+  // 保存密码的更改
   const res = await user.save();
 
   ctx.body = {
@@ -135,12 +141,13 @@ router.post('/reset/password', async (ctx) => {
   };
 });
 
+// 修改角色
 router.post('/update/character', async (ctx) => {
   const {
     character,
     userId,
   } = ctx.request.body;
-
+  // 查找角色是否存在
   const char = await Character.findOne({
     _id: character,
   });
@@ -153,7 +160,7 @@ router.post('/update/character', async (ctx) => {
 
     return;
   }
-
+  // 查找用户是否存在
   const user = await User.findOne({
     _id: userId,
   });
@@ -166,7 +173,7 @@ router.post('/update/character', async (ctx) => {
 
     return;
   };
-
+  // 更改用户角色
   user.character = character;
 
   const res = await user.save();
@@ -178,45 +185,55 @@ router.post('/update/character', async (ctx) => {
   };
 });
 
+// 通过token获取用户信息
 router.get('/info', async (ctx) => {
   ctx.body = {
+    // token保存了用户的信息,解密后返回给前端使用!
     data: await verify(getToken(ctx)),
     code: 1,
     msg: '获取成功',
   }
 });
 
+// excel批量添加用户接口
 router.post('/addMany', async (ctx) => {
   const {
     key = '',
   } = ctx.request.body;
 
+  // 文件路径
   const path = `${config.UPLOAD_DIR}/${key}`;
 
+  // 解析excel
   const excel = loadExcel(path);
 
+  // 获得解析后的excel，从中获取第一张表的数据
   const sheet = getFirstSheet(excel);
 
+  // 全部用户默认为成员
   const character = await Character.find().exec();
-
-  console.log(character);
-
   const member = character.find((item) => (item.name === 'member'));
 
+  // 构建列表,循环该列表每一列的数据,比如账户,密码等,取出来用!
   const arr = [];
+  // 循环遍历表里的每一行数据
   for (let i = 0; i < sheet.length; i++) {
+    // 赋值给record
     let record = sheet[i];
-
+    // 取出数据
     const [account, password = config.DEFAULT_PASSWORD] = record;
 
+    // 看用户在不在
     const one = await User.findOne({
       account,
     })
 
     if (one) {
+      // 若在跳出本次循环,进行下一行数据的获取
       continue;
     }
 
+    // 把数据推进数组
     arr.push({
       account,
       password,
@@ -224,6 +241,7 @@ router.post('/addMany', async (ctx) => {
     });
   }
 
+  // 同时插入多条数据添加用户
   await User.insertMany(arr);
 
   ctx.body = {

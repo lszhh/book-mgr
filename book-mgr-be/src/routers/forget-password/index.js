@@ -10,6 +10,7 @@ const router = new Router({
   prefix: '/forget-password',
 });
 
+// 获取列表
 router.get('/list', async (ctx) => {
   let {
     page,
@@ -45,12 +46,13 @@ router.get('/list', async (ctx) => {
   };
 });
 
+// 添加一条重置密码的请求
 router.post('/add', async (ctx) => {
   const {
     account,
   } = ctx.request.body;
 
-  // 账户得存在
+  // 账户得先存在，才能申请！
   const user = await User.findOne({
     account,
   }).exec();
@@ -64,7 +66,8 @@ router.post('/add', async (ctx) => {
     return;
   }
 
-  // 在 forget-password 集合中不存在 status 为 1 的文档
+  // 且该账户，在forget-password集合中不存在status为1的文档
+  // 即不能重复申请重置密码
   const one = await ForgetPassword.findOne({
     account,
     status: 1,
@@ -79,6 +82,7 @@ router.post('/add', async (ctx) => {
     return;
   }
 
+  // 符合要求了，就往数据库添加数据！
   const forgetPwd = new ForgetPassword({
     account,
     status: 1,
@@ -98,6 +102,7 @@ router.post('/update/status', async (ctx) => {
     status,
   } = ctx.request.body;
 
+  // 根据id来查找重置密码的请求
   const one = await ForgetPassword.findOne({
     _id: id,
   });
@@ -107,12 +112,14 @@ router.post('/update/status', async (ctx) => {
       msg: '找不到这条申请',
       code: 0,
     };
-
     return;
   }
 
+  // 若找到了，就把状态改成我们传上来的status，然后直接save保存
+  // 下面的这个判断，是后面加的，还有点不清楚是干嘛的！
   one.status = status;
 
+// 若是传递过来重置，就查找用户，修改密码！
   if (status === 2) {
     const user = await User.findOne({
       account: one.account,

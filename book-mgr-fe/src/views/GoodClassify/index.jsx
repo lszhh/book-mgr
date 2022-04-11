@@ -66,12 +66,13 @@ export default defineComponent({
         onOk: async () => {
           const title = document.querySelector('.__good_classify_new_title').value;
 
+          // 完成数据库的修改
           const res = await goodClassify.updateTitle(_id, title);
 
           result(res)
             .success(({ msg }) => {
               message.success(msg);
-
+              // 直接改list的值，完成页面的展示，避免再发一次额外的请求
               list.value.forEach((item) => {
                 if (item._id === _id) {
                   item.title = title;

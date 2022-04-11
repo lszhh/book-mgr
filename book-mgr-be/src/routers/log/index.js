@@ -43,6 +43,7 @@ router.get('/list', async (ctx) => {
   };
 });
 
+// 删除操作接口
 router.post('/delete', async (ctx) => {
   const {
     id,

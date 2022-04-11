@@ -8,7 +8,9 @@ const LOG_MAP = [
 export const getLogInfoByPath = (path) => {
   let title = '';
 
+  // 遍历列表
   LOG_MAP.forEach((item) => {
+    // includes方法，找到与否，返回布尔值！
     if (path.includes(item[0])) {
       title = path.replace(item[0], item[1]);
     }

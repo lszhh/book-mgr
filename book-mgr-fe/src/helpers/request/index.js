@@ -3,16 +3,19 @@ import { getToken } from '@/helpers/token';
 
 const domain = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3000';
 
+// 获取地址
 const getURL = (path) => {
   return `${domain}${path}`;
 };
 
+// 获取默认头
 export const getHeaders = () => {
   return {
     Authorization: `Bearer ${getToken()}`,
   };
 };
 
+// 
 export const post = (url, data = {}) => {
   return axios.post(getURL(url), data, {
     headers: getHeaders(),
