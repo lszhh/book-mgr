@@ -11,7 +11,7 @@ const defaultFormData = {
   name: '',
   price: 0,
   producedDate: 0,
-  expirationDate: 0,
+  expirationDate: '',
   classify: '',
   count: '',
 };
@@ -35,6 +35,11 @@ export default defineComponent({
 
     // 弹框OK按钮触发时要做的事情
     const submit = async () => {
+      // 校验数据
+      if ( addForm.name === '' || addForm.expirationDate === '' || addForm.count === '') {
+        message.error('部分字段不能为空');
+        return;
+      }
       // 深拷贝一份数据
       const form = clone(addForm);
       // 日期默认为moment类型，通过valueOf转换为时间戳

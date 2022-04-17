@@ -27,7 +27,7 @@ export default [
     onlyAdmin: true,
   },
   {
-    title: '杂项',
+    title: '小项功能',
     onlyAdmin: false,
     children: [
       {

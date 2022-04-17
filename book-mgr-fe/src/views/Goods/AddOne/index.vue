@@ -13,7 +13,7 @@
         <a-form-item label="价格">
           <a-input-number v-model:value="addForm.price" :min="0" :max="99999999999" />
         </a-form-item>
-        <a-form-item label="保质期">
+        <a-form-item label="出版社">
           <a-input v-model:value="addForm.expirationDate" />
         </a-form-item>
         <a-form-item label="生产日期">

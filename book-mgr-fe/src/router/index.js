@@ -13,7 +13,7 @@ const routes = [
   {
     path: '/',
     name: 'BasicLayout',
-    // 如果是跳转到'/',就直接跳转到auth界面,退出的操作1
+    // 如果是跳转到'/',就直接跳转到auth界面,退出的操作
     redirect: '/auth',
     component: () => import(/* webpackChunkName: "BasicLayout" */ '../layout/BasicLayout/index.vue'),
     // 嵌套路由

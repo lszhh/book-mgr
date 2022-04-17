@@ -42,7 +42,7 @@ router.get('/list', async (ctx) => {
   const total = await User.countDocuments().exec();
 
   ctx.body = {
-    msg: '获取列表成功',
+    msg: '获取用户列表成功',
     data: {
       list,
       page,
@@ -59,6 +59,10 @@ router.delete('/:id', async (ctx) => {
     id,
   } = ctx.params;
 
+  const user = await User.findOne({
+    _id: id,
+  }).exec();
+
   const delMsg = await User.deleteOne({
     _id: id,
   });
@@ -66,7 +70,8 @@ router.delete('/:id', async (ctx) => {
   ctx.body = {
     data: delMsg,
     code: 1,
-    msg: '删除成功',
+    msg: '用户删除成功',
+    userName: user.account,
   };
 });
 
@@ -102,7 +107,7 @@ router.post('/add', async (ctx) => {
   ctx.body = {
     data: res,
     code: 1,
-    msg: '添加成功',
+    msg: '用户添加成功',
   };
 });
 
@@ -132,7 +137,7 @@ router.post('/reset/password', async (ctx) => {
   const res = await user.save();
 
   ctx.body = {
-    msg: '修改成功',
+    msg: '用户重置密码成功',
     data: {
       account: res.account,
       _id: res._id,
@@ -181,7 +186,7 @@ router.post('/update/character', async (ctx) => {
   ctx.body = {
     data: res,
     code: 1,
-    msg: '修改成功',
+    msg: '用户角色修改成功',
   };
 });
 
@@ -191,7 +196,7 @@ router.get('/info', async (ctx) => {
     // token保存了用户的信息,解密后返回给前端使用!
     data: await verify(getToken(ctx)),
     code: 1,
-    msg: '获取成功',
+    msg: 'token信息获取成功',
   }
 });
 
@@ -246,7 +251,7 @@ router.post('/addMany', async (ctx) => {
 
   ctx.body = {
     code: 1,
-    msg: '添加成功',
+    msg: 'Excel批量添加用户成功',
     data: {
       addCount: arr.length,
     },

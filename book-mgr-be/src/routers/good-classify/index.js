@@ -3,8 +3,6 @@ const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
 const _ = require('../../config/common');
 
-// const { getBody } = require('../../helpers/utils');
-
 const GoodClassify = mongoose.model('GoodClassify');
 
 const router = new Router({
@@ -19,10 +17,11 @@ router.get('/list', async (ctx) => {
   ctx.body = {
     data: list,
     code: 1,
-    msg: '获取成功',
+    msg: '获取图书分类列表成功',
   };
 });
 
+// 添加分类
 router.post('/add', async (ctx) => {
   const {
     title,
@@ -40,6 +39,14 @@ router.post('/add', async (ctx) => {
     return;
   }
 
+  if (title === '') {
+    ctx.body = {
+      code: 0,
+      msg: '分类不能为空',
+    };
+    return;
+  }
+
   const goodClassify = new GoodClassify({
     title,
   });
@@ -49,7 +56,7 @@ router.post('/add', async (ctx) => {
   ctx.body = {
     data: saved,
     code: 1,
-    msg: '创建成功',
+    msg: '分类创建成功',
   }
 });
 
@@ -58,6 +65,10 @@ router.delete('/:id', async (ctx) => {
     id,
   } = ctx.params;
 
+  const one = await GoodClassify.findOne({
+    _id: id,
+  }).exec();
+
   const res = await GoodClassify.deleteOne({
     _id: id,
   });
@@ -65,7 +76,8 @@ router.delete('/:id', async (ctx) => {
   ctx.body = {
     data: res,
     code: 1,
-    msg: '删除成功',
+    msg: '分类删除成功',
+    classifyName: one.title,
   };
 });
 
@@ -81,7 +93,7 @@ router.post('/update/title', async (ctx) => {
 
   if (!one) {
     ctx.body = {
-      msg: '资源不存在',
+      msg: '该分类不存在',
       code: 0,
     };
     return;
@@ -93,7 +105,7 @@ router.post('/update/title', async (ctx) => {
 
   ctx.body = {
     data: res,
-    msg: '修改成功',
+    msg: '分类修改成功',
     code: 1,
   };
 });

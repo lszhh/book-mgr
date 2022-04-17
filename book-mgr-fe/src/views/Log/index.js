@@ -33,12 +33,23 @@ export default defineComponent({
 
     if (!props.simple) {
       columns.push({
+        title: '时间戳',
+        slots: {
+          customRender: 'timeStamp',
+        },
+      });
+    }
+
+    if (!props.simple) {
+      columns.push({
         title: '操作',
         slots: {
           customRender: 'action',
         },
       });
     }
+
+    
 
     const getList = async () => {
       loading.value = true;

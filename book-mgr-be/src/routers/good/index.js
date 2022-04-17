@@ -30,7 +30,7 @@ const router = new Router({
   prefix: '/good',
 });
 
-// 列出商品接口
+// 列出书籍接口
 router.get('/list', async (ctx) => {
   // query 为地址 ?page=2&size=20 这些
   const {
@@ -78,7 +78,7 @@ router.get('/list', async (ctx) => {
 
   ctx.response.body = {
     code: 1,
-    msg: '列出商品成功',
+    msg: '列出书籍列表成功',
     data: {
       list,
       total,
@@ -94,14 +94,18 @@ router.delete('/:id', async (ctx) => {
     id,
   } = ctx.params;
 
+  const one = await findGoodOne(id);
+
+
   const delMsg = await Good.deleteOne({
     _id: id,
   });
 
   ctx.body = {
     data: delMsg,
-    msg: '删除成功',
+    msg: '删除书籍成功',
     code: 1,
+    bookName: one.name,
   };
 });
 
@@ -128,12 +132,12 @@ router.post('/update/count', async (ctx) => {
   if (!good) {
     ctx.body = {
       code: 0,
-      msg: '没有找到相关商品',
+      msg: '没有找到相关书籍',
     }
     return
   }
 
-  // 如果找到了商品
+  // 如果找到了书籍
   if (type === GOOD_COUST.IN) {
     // 入库操作
     num = Math.abs(num)
@@ -145,11 +149,11 @@ router.post('/update/count', async (ctx) => {
   // 改变count的值
   good.count += num;
 
-  // 如果库存为负数
+  // 如果存量为负数
   if (good.count < 0) {
     ctx.body = {
       code: 0,
-      msg: '商品库存不足',
+      msg: '书籍存量不足',
     }
     return
   }
@@ -187,6 +191,7 @@ router.post('/update', async (ctx) => {
 
   const one = await findGoodOne(id);
 
+  
   // 没有找到书
   if (!one) {
     ctx.body = {
@@ -209,9 +214,9 @@ router.post('/update', async (ctx) => {
   const res = await one.save();
 
   ctx.body = {
-    data: res,
+    AfterData: res,
     code: 1,
-    msg: '保存成功',
+    msg: '书籍修改成功',
   };
 });
 
@@ -234,7 +239,7 @@ router.get('/detail/:id', async (ctx) => {
   }
 
   ctx.body = {
-    msg: '查询成功',
+    msg: '详情页查询书籍成功',
     data: one,
     code: 1,
   };
@@ -255,7 +260,7 @@ router.post('/addMany', async (ctx) => {
   const arr = [];
   for (let i = 0; i < sheet.length; i++) {
     let record = sheet[i];
-
+    
     const [
       name,
       price,
@@ -264,7 +269,8 @@ router.post('/addMany', async (ctx) => {
       classify,
       count,
     ] = record;
-
+  
+    // let PRODUCEDATE = producedDate.valueOf();
     let classifyId = classify;
 
     const one = await Classify.findOne({
@@ -289,7 +295,7 @@ router.post('/addMany', async (ctx) => {
 
   ctx.body = {
     code: 1,
-    msg: '添加成功',
+    msg: 'Excel批量添加图书成功',
     data: {
       addCount: arr.length,
     },
@@ -320,7 +326,8 @@ router.post('/add', async (ctx) => {
   ctx.body = {
     data: res,
     code: 1,
-    msg: '添加成功',
+    msg: '添加一本图书成功',
+    bookName: name,
   };
 });
 

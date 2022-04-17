@@ -1,11 +1,11 @@
 const TopicMgr = {
-  // 商品名
+  // 书名
   name: String,
   // 价格
   price: Number,
-  // 保质期
-  expirationDate: Number,
-  // 生产日期
+  // 出版社
+  expirationDate: String,
+  // 出版日期
   producedDate: Number,
   // 分类
   classify: String,

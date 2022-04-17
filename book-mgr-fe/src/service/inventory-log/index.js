@@ -9,7 +9,7 @@ export const list = (type = 'IN_COUNT', page = 1, size = 10, goodName = '') => {
     type,
     page,
     size,
-    goodName,
+    // goodName,
   }
   )
 }

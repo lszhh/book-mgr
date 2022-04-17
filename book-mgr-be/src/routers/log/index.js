@@ -39,7 +39,7 @@ router.get('/list', async (ctx) => {
       total,
     },
     code: 1,
-    msg: '获取列表成功',
+    msg: '获取日志列表成功',
   };
 });
 

@@ -15,7 +15,7 @@ export default defineComponent({
       name: '',
       price: 0,
       producedDate: '',
-      expirationDate: 0,
+      expirationDate: '',
       classify: '',
     });
 
@@ -43,9 +43,9 @@ export default defineComponent({
 
       result(res)
       // 修改完成后的展示，都放在success这个逻辑下
-        .success(({ data, msg }) => {
+        .success(({ AfterData, msg }) => {
           // 触发自定义事件，完成数据的合并，展示在页面中
-          context.emit('update', data);
+          context.emit('update', AfterData);
           message.success(msg);
           // 修改后自动关闭弹框
           close();

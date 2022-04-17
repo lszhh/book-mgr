@@ -27,7 +27,7 @@ router.post('/update/password', async (ctx) => {
 
   if (!user) {
     ctx.body = {
-      msg: '用户不存在',
+      msg: '个人设置查询该用户不存在',
       code: 0,
     };
     return;
@@ -36,7 +36,7 @@ router.post('/update/password', async (ctx) => {
   // 旧密码是否正确
   if (user.password !== oldPassword) {
     ctx.body = {
-      msg: '密码校验失败',
+      msg: '个人设置密码校验失败',
       code: 0,
     };
     return;
@@ -48,9 +48,10 @@ router.post('/update/password', async (ctx) => {
   await user.save();
 
   ctx.body = {
-    msg: '修改成功',
+    msg: '个人设置密码修改成功',
     code: 1,
   };
+
 });
 
 module.exports = router;

@@ -2,6 +2,7 @@ import { defineComponent, reactive } from 'vue';
 import { profile } from '@/service';
 import { message } from 'ant-design-vue';
 import { result } from '@/helpers/utils';
+import { setToken } from '@/helpers/token';
 
 export default defineComponent({
   setup() {
@@ -31,10 +32,13 @@ export default defineComponent({
       result(res)
         .success(({ msg }) => {
           message.success(msg);
-
           form.oldPassword = '';
           form.confirmNewPassword = '';
           form.newPassword = '';
+          // token清空
+          setToken('');
+          // 重定向到'/'
+          window.location.href = '/';
         });
     };
 

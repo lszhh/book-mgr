@@ -27,6 +27,7 @@ const logMiddleware = async (ctx, next) => {
   const url = ctx.url;
   const method = ctx.method;
   const status = ctx.status;
+  
   // 动作显示隐藏的标记
   let show = true;
 
@@ -77,6 +78,8 @@ const logMiddleware = async (ctx, next) => {
   const logRes = new LogResponse({
     logId: log._id,
     data: responseBody,
+    startTime,
+    url,
   });
 
   logRes.save();

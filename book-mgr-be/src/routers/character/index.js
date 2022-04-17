@@ -16,7 +16,7 @@ router.get('/list', async (ctx) => {
   ctx.body = {
     data: list,
     code: 1,
-    msg: '获取列表成功',
+    msg: '获取角色列表成功',
   };
 });
 

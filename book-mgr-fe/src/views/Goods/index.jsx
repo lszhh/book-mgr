@@ -27,7 +27,7 @@ export default defineComponent({
         dataIndex: 'name',
       },
       {
-        title: '保质期',
+        title: '出版社',
         dataIndex: 'expirationDate',
       },
       {
@@ -35,13 +35,13 @@ export default defineComponent({
         dataIndex: 'price',
       },
       {
-        title: '库存',
+        title: '存量',
         slots: {
           customRender: 'count',
         },
       },
       {
-        title: '生产日期',
+        title: '出版日期',
         dataIndex: 'producedDate',
         // 自定义插槽slots，名字为producedDate！
         slots: {
@@ -199,13 +199,14 @@ export default defineComponent({
     // 显示更新弹框
     const update = ({ record }) => {
       showUpdateModal.value = true;
-      curEditgood.value = record;
+      curEditGood.value = record;
     };
 
     // 子组件直接修改父的不好，提供该方法返回给子组件使用！
     // 更新列表的某一行数据
     const updateCurGood = (newData) => {
-      Object.assign(curEditgood.value, newData);
+      Object.assign(curEditGood.value, newData);
+      console.log(curEditGood.value);
     };
 
     // 进入商品详情页
@@ -222,7 +223,6 @@ export default defineComponent({
             result(res)
               .success(({ data: { addCount } }) => {
                 message.success(`成功添加 ${addCount} 本书`);
-
                 getList();
               });
           });

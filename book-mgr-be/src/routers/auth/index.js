@@ -25,7 +25,7 @@ router.post('/register', async (ctx) => {
   if (account === '' || password === '' || inviteCode === '') {
     ctx.body = {
       code: 0,
-      msg: '字段不能为空',
+      msg: '注册相关字段不能为空',
       data: null,
     };
 
@@ -41,7 +41,7 @@ router.post('/register', async (ctx) => {
   if ((!findCode) || findCode.user) {
     ctx.body = {
       code: 0,
-      msg: '邀请码不正确',
+      msg: '注册邀请码不正确',
       data: null,
     };
 
@@ -58,7 +58,7 @@ router.post('/register', async (ctx) => {
     // 如果有 表示已经存在
     ctx.body = {
       code: 0,
-      msg: '已存在该用户',
+      msg: '想注册的用户已存在',
       data: null,
     };
     return; 
@@ -82,7 +82,7 @@ router.post('/register', async (ctx) => {
   // 响应成功
   ctx.body = {
     code: 1,
-    msg: '注册成功',
+    msg: '用户注册成功',
     data: res,
   };
 });
@@ -96,7 +96,7 @@ router.post('/login', async (ctx) => {
   if (account === '' || password === '') {
     ctx.body = {
       code: 0,
-      msg: '字段不能为空',
+      msg: '登录字段不能为空',
       data: null,
     };
 
@@ -110,7 +110,7 @@ router.post('/login', async (ctx) => {
   if (!one) {
     ctx.body = {
       code: 0,
-      msg: '用户名或密码错误',
+      msg: '登录输入用户名或密码错误',
       data: null,
     };
 
@@ -127,7 +127,7 @@ router.post('/login', async (ctx) => {
   if (one.password === password) {
     ctx.body = {
       code: 1,
-      msg: '登入成功',
+      msg: '用户登陆成功',
       data: {
         // 返回user的信息
         user,
@@ -142,7 +142,7 @@ router.post('/login', async (ctx) => {
   // 返回一些信息
   ctx.body = {
     code: 0,
-    msg: '用户名或密码错误',
+    msg: '登录输入的用户名或密码错误',
     data: null,
   };
 });

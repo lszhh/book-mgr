@@ -22,7 +22,7 @@ router.get('/base-info', async (ctx) => {
 
   ctx.body = {
     code: 1,
-    msg: '获取成功',
+    msg: '总览页基础信息获取成功',
     data: {
       total: {
         good: goodTotal,

@@ -3,18 +3,19 @@ const mongoose = require('mongoose')
 
 
 // 获取Inventory表
-const InventoryLog = mongoose.model('InventoryLog')
+const InventoryLog= mongoose.model('InventoryLog');
 
 // 创建路由
 const router = new Router({
-  prefix: '/inventory-log'
+  prefix: '/inventory-log',
 })
 
 // 请求会匹配到/inventory-log/list，然后就执行下面的操作
 router.get('/list', async (ctx) => {
   const {
     type,
-    goodName,
+    // 视频没有这个goodName
+    // goodName,
   } = ctx.query
 
   let {
@@ -28,13 +29,14 @@ router.get('/list', async (ctx) => {
   // total，获取查询到几条日志
   const total = await InventoryLog.find({
     type,
-    goodName,
+    // goodName,
   }).countDocuments().exec()
 
   const list = await InventoryLog
     .find({
       type,
-      goodName,
+      // 这里没有
+      // goodName,
     })
     .sort({
       // 倒序
@@ -57,6 +59,7 @@ router.get('/list', async (ctx) => {
 
 })
 
+// 统计报表接口
 router.get('/getSaleValue', async (ctx) => {
   const {
     startTime,

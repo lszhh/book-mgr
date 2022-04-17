@@ -3,6 +3,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { result, formatTimestamp } from '@/helpers/utils';
 import { good, inventoryLog } from '@/service';
 import { getClassifyTitleById } from '@/helpers/good-classify';
+// icon标志引入并使用！
 import { CheckOutlined } from '@ant-design/icons-vue';
 import { message } from 'ant-design-vue';
 import Update from '@/views/Goods/Update/index.vue';

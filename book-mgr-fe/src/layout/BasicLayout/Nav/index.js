@@ -7,7 +7,7 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
 
-    const openKeys = ref([]);
+    const openKeys = ref(['小项功能']);
     const selectedKeys = ref([]);
 
     onMounted(() => {

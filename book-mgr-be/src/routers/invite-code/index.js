@@ -31,7 +31,7 @@ router.post('/add', async (ctx) => {
   ctx.body = {
     code: 1,
     data: res,
-    msg: '创建成功',
+    msg: '多条邀请码插入成功',
   };
 });
 
@@ -63,7 +63,7 @@ router.get('/list', async (ctx) => {
       page,
       size,
     },
-    msg: '获取列表成功',
+    msg: '邀请码列表获取成功',
     code: 1,
   };
 });
@@ -74,14 +74,20 @@ router.delete('/:id', async (ctx) => {
     id,
   } = ctx.params;
 
+  const one = await InviteCode.findOne({
+    _id: id,
+  }).exec();
+
   const res = await InviteCode.deleteOne({
     _id: id,
   });
 
+  
   ctx.body = {
     data: res,
-    msg: '删除成功',
+    msg: '邀请码删除成功',
     code: 1,
+    codeName: one.code,
   };
 });
 

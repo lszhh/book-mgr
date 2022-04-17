@@ -19,7 +19,7 @@
             <div class="content">{{ d.price }}</div>
           </div>
           <div class="item">
-            <div class="title">保质期</div>
+            <div class="title">出版社</div>
             <div class="content">{{ d.expirationDate }}</div>
           </div>
           <div class="item">
@@ -29,7 +29,7 @@
         </div>
         <div class="items">
           <div class="item">
-            <div class="title">生产日期</div>
+            <div class="title">出版日期</div>
             <div class="content">{{ formatTimestamp(d.producedDate) }}</div>
           </div>
         </div>

@@ -30,6 +30,7 @@ export default defineComponent({
         });
     };
 
+    // 添加分类
     const add = async () => {
       const res = await goodClassify.add(title.value);
 

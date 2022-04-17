@@ -42,7 +42,7 @@ router.get('/list', async (ctx) => {
       total,
     },
     code: 1,
-    msg: '获取列表成功',
+    msg: '重置密码列表获取成功',
   };
 });
 
@@ -60,7 +60,7 @@ router.post('/add', async (ctx) => {
   if (!user) {
     ctx.body = {
       code: 1,
-      msg: '申请成功啦',
+      msg: '申请重置密码成功',
     };
 
     return;
@@ -76,7 +76,7 @@ router.post('/add', async (ctx) => {
   if (one) {
     ctx.body = {
       code: 1,
-      msg: '申请成功啦',
+      msg: '申请重置密码成功',
     };
 
     return;
@@ -92,7 +92,7 @@ router.post('/add', async (ctx) => {
 
   ctx.body = {
     code: 1,
-    msg: '申请成功啦',
+    msg: '申请重置密码成功',
   };
 });
 
@@ -109,7 +109,7 @@ router.post('/update/status', async (ctx) => {
 
   if (!one) {
     ctx.body = {
-      msg: '找不到这条申请',
+      msg: '找不到这条重置密码申请',
       code: 0,
     };
     return;
@@ -136,7 +136,7 @@ router.post('/update/status', async (ctx) => {
 
   ctx.body = {
     code: 1,
-    msg: '处理成功',
+    msg: '重置处理成功',
   };
 });
 

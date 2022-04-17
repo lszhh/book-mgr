@@ -4,7 +4,8 @@ const { getMeta, preSave } = require('../helpers');
 const LogResponseSchema = new mongoose.Schema({
   logId: String,
   data: String,
-
+  startTime: Number,
+  url: String,
   meta: getMeta(),
 });
 
