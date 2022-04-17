@@ -1,5 +1,5 @@
 import { defineComponent, reactive, watch } from 'vue';
-import { good } from '@/service';
+import { book } from '@/service';
 import { message } from 'ant-design-vue';
 import { result, clone } from '@/helpers/utils';
 import moment from 'moment';
@@ -8,7 +8,7 @@ import store from '@/store';
 export default defineComponent({
   props: {
     show: Boolean,
-    good: Object,
+    book: Object,
   },
   setup(props, context) {
     const editForm = reactive({
@@ -24,7 +24,7 @@ export default defineComponent({
     };
 
     // 监听接收到的数据是否发生变化
-    watch(() => props.good, (current) => {
+    watch(() => props.book, (current) => {
       // 若变化将数据合并到editForm中进行展示
       Object.assign(editForm, current);
       // 处理日期数据，转换为moment对象
@@ -32,8 +32,8 @@ export default defineComponent({
     });
 
     const submit = async () => {
-      const res = await good.update({
-        id: props.good._id,
+      const res = await book.update({
+        id: props.book._id,
         name: editForm.name,
         price: editForm.price,
         expirationDate: editForm.expirationDate,

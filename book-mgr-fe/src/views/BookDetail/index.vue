@@ -78,7 +78,7 @@
     </div>
     <update
       v-model:show="showUpdateModal"
-      :good="d"
+      :book="d"
       @update="update"
     />
   </div>

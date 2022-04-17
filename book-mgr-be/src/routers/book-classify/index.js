@@ -3,14 +3,14 @@ const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
 const _ = require('../../config/common');
 
-const GoodClassify = mongoose.model('GoodClassify');
+const BookClassify = mongoose.model('BookClassify');
 
 const router = new Router({
-  prefix: '/good-classify',
+  prefix: '/book-classify',
 });
 
 router.get('/list', async (ctx) => {
-  const list = await GoodClassify.find().sort({
+  const list = await BookClassify.find().sort({
     _id: -1,
   }).exec();
 
@@ -27,7 +27,7 @@ router.post('/add', async (ctx) => {
     title,
   } = ctx.request.body;
 
-  const one = await GoodClassify.findOne({
+  const one = await BookClassify.findOne({
     title,
   }).exec();
 
@@ -47,11 +47,11 @@ router.post('/add', async (ctx) => {
     return;
   }
 
-  const goodClassify = new GoodClassify({
+  const bookClassify = new BookClassify({
     title,
   });
 
-  const saved = await goodClassify.save();
+  const saved = await bookClassify.save();
 
   ctx.body = {
     data: saved,
@@ -65,11 +65,11 @@ router.delete('/:id', async (ctx) => {
     id,
   } = ctx.params;
 
-  const one = await GoodClassify.findOne({
+  const one = await BookClassify.findOne({
     _id: id,
   }).exec();
 
-  const res = await GoodClassify.deleteOne({
+  const res = await BookClassify.deleteOne({
     _id: id,
   });
 
@@ -87,7 +87,7 @@ router.post('/update/title', async (ctx) => {
     title,
   } = ctx.request.body;
 
-  const one = await GoodClassify.findOne({
+  const one = await BookClassify.findOne({
     _id: id,
   });
 

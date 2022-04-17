@@ -13,7 +13,7 @@ export default [
   },
   {
     title: `${_.KEYWORD}管理`,
-    url: '/goods',
+    url: '/books',
     onlyAdmin: false,
   },
   {
@@ -32,7 +32,7 @@ export default [
     children: [
       {
         title: `${_.KEYWORD}分类管理`,
-        url: '/good-classify',
+        url: '/book-classify',
         onlyAdmin: true,
       },
       {

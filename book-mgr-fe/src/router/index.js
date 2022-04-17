@@ -19,14 +19,14 @@ const routes = [
     // 嵌套路由
     children: [
       {
-        path: 'goods',
-        name: 'Goods',
-        component: () => import(/* webpackChunkName: "Goods" */ '../views/Goods/index.vue'),
+        path: 'books',
+        name: 'Books',
+        component: () => import(/* webpackChunkName: "Books" */ '../views/Books/index.vue'),
       },
       {
-        path: 'goods/:id',
-        name: 'GoodDetail',
-        component: () => import(/* webpackChunkName: "GoodDetail" */ '../views/GoodDetail/index.vue'),
+        path: 'books/:id',
+        name: 'BookDetail',
+        component: () => import(/* webpackChunkName: "BookDetail" */ '../views/BookDetail/index.vue'),
       },
       {
         path: 'user',
@@ -49,9 +49,9 @@ const routes = [
         component: () => import(/* webpackChunkName: "InviteCode" */ '../views/InviteCode/index.vue'),
       },
       {
-        path: 'good-classify',
-        name: 'GoodClassify',
-        component: () => import(/* webpackChunkName: "GoodClassify" */ '../views/GoodClassify/index.vue'),
+        path: 'book-classify',
+        name: 'BookClassify',
+        component: () => import(/* webpackChunkName: "BookClassify" */ '../views/BookClassify/index.vue'),
       },
       {
         path: 'profile',
@@ -118,8 +118,8 @@ router.beforeEach(async (to, from, next) => {
     reqArr.push(store.dispatch('getUserInfo'));
   }
 
-  if (!store.state.goodClassify.length) {
-    reqArr.push(store.dispatch('getGoodClassify'));
+  if (!store.state.bookClassify.length) {
+    reqArr.push(store.dispatch('getBookClassify'));
   }
 
   // 解决已经出页面，但是store.dispatch还没执行完，界面显示隐藏不合理的问题！
@@ -129,7 +129,7 @@ router.beforeEach(async (to, from, next) => {
 
   // 以上全部执行完了,说明是登录OK了,有信息了,直接跳到good页面
   if (to.path === '/auth') {
-    next('/goods');
+    next('/books');
     return;
   }
 

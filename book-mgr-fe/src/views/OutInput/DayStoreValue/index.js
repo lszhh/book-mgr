@@ -1,7 +1,7 @@
 import { defineComponent, onMounted, onUnmounted } from 'vue'
 import * as echarts from 'echarts'
 import store from '@/store'
-import { inventoryLog, good } from '@/service'
+import { inventoryLog, book } from '@/service'
 import { result, } from '@/helpers/utils'
 import { getTime, getSaleValueOption } from '@/helpers/out-input'
 import { message } from 'ant-design-vue'
@@ -11,13 +11,13 @@ export default defineComponent({
   setup() {
 
     // 获取分类数据
-    const { goodClassify } = store.state
-    const goodClassifyTitle = []
+    const { bookClassify } = store.state
+    const bookClassifyTitle = []
 
     // 获取具体分类名字方法
-    function getGoodClassify(goodClassifyTitle) {
-      goodClassify.forEach(item => {
-        goodClassifyTitle.push(item.title)
+    function getBookClassify(bookClassifyTitle) {
+      bookClassify.forEach(item => {
+        bookClassifyTitle.push(item.title)
       })
     }
 
@@ -83,7 +83,7 @@ export default defineComponent({
             totalItems.forEach(item => {
               specificItems.forEach((value, index) => {
                 value.forEach((childValue) => {
-                  if (item._id === childValue.goodName) {
+                  if (item._id === childValue.bookName) {
                     // 深拷贝
                     const tempItem = JSON.parse(JSON.stringify(item))
                     // 把销量赋值给出入库数据
@@ -126,7 +126,7 @@ export default defineComponent({
             specificDayID.forEach((item, index) => {
               let num = 0
               stockItems[params.dataIndex].forEach(value => {
-                if (value.goodName === item) {
+                if (value.bookName === item) {
                   num += value.num
                 }
               })
@@ -301,9 +301,9 @@ export default defineComponent({
     onMounted(async () => {
       // 获取设置元素
       showValue = echarts.init(document.getElementById('showDayStoreValue'));
-      const { data: { data: { list } } } = await good.list()
+      const { data: { data: { list } } } = await book.list()
       totalItems = list
-      getGoodClassify(goodClassifyTitle)
+      getBookClassify(bookClassifyTitle)
       await getSaleValue()
       showValueEchart()
     })

@@ -116,7 +116,7 @@ export default defineComponent({
           store.commit('setUserInfo', user);
           store.commit('setUserCharacter', getCharacterInfoById(user.character));
           // 跳转到goods页面去
-          router.replace('/goods');
+          router.replace('/books');
         });
     };
 

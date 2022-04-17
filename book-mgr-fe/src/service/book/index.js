@@ -4,51 +4,51 @@ import {
 
 export const add = (form) => {
   return post(
-    '/good/add',
+    '/book/add',
     form,
   );
 };
 
 export const list = (data) => {
   return get(
-    '/good/list',
+    '/book/list',
     data
   );
 };
 
 export const remove = (id) => {
   return del(
-    `/good/${id}`,
+    `/book/${id}`,
   );
 };
 
 export const updateCount = (data = {}) => {
   return post(
-    `/good/update/count`,
+    `/book/update/count`,
     data,
   );
 };
 
 export const update = (data = {}) => {
   return post(
-    `/good/update`,
+    `/book/update`,
     data,
   );
 };
 
 export const detail = (id) => {
   return get(
-    `/good/detail/${id}`,
+    `/book/detail/${id}`,
   );
 };
 
 export const addMany = (key) => {
-  return post('/good/addMany', {
+  return post('/book/addMany', {
     key,
   });
 };
 
 // 获取库存信息
-export const getGoodStore = () => {
-  return get('/good/getStore')
+export const getBookStore = () => {
+  return get('/book/getStore')
 }

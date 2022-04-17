@@ -1,13 +1,13 @@
 import { defineComponent, onMounted, ref } from 'vue';
 import { result } from '@/helpers/utils';
-import Goods from '@/views/Goods/index.vue';
+import Books from '@/views/Books/index.vue';
 import Log from '@/views/Log/index.vue';
 import { dashboard } from '@/service';
 import _ from '@/config/common';
 
 export default defineComponent({
   components: {
-    Goods,
+    Books,
     Log,
   },
   setup() {
@@ -15,7 +15,7 @@ export default defineComponent({
 
     const baseInfo = ref({
       total: {
-        good: 0,
+        book: 0,
         user: 0,
         log: 0,
       },

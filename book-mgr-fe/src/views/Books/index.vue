@@ -84,14 +84,14 @@
 
     <add-one
       v-model:show="show"
-      :classifyList="goodClassifyList"
+      :classifyList="bookClassifyList"
       @getList="getList"
     />
 
     <update
       v-model:show="showUpdateModal"
-      :good="curEditGood"
-      @update="updateCurGood"
+      :book="curEditBook"
+      @update="updateCurBook"
     />
   </div>
 </template>

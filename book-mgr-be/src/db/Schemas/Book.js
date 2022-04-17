@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { getMeta, preSave } = require('../helpers');
 const _ = require('../../config/common');
 
-const GoodSchema = new mongoose.Schema({
+const BookSchema = new mongoose.Schema({
   // // 书名
   // name: String,
   // // 价格
@@ -20,6 +20,6 @@ const GoodSchema = new mongoose.Schema({
   meta: getMeta(),
 });
 
-GoodSchema.pre('save', preSave);
+BookSchema.pre('save', preSave);
 
-mongoose.model('Good', GoodSchema);
+mongoose.model('Book', BookSchema);

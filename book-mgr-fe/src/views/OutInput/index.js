@@ -1,7 +1,7 @@
 import { defineComponent, onMounted, onUnmounted } from 'vue'
 import * as echarts from 'echarts'
 import store from '@/store'
-import { good } from '@/service'
+import { book } from '@/service'
 import { message } from 'ant-design-vue'
 import { result } from '@/helpers/utils'
 import { getStoreOption } from '@/helpers/out-input'
@@ -15,25 +15,25 @@ export default defineComponent({
   setup() {
 
     // 获取分类数据
-    const { goodClassify } = store.state
-    const goodClassifyTitle = []
+    const { bookClassify } = store.state
+    const bookClassifyTitle = []
 
     // 获取具体分类名字方法
-    function getGoodClassify(goodClassifyTitle) {
-      goodClassify.forEach(item => {
-        goodClassifyTitle.push(item.title)
+    function getBookClassify(bookClassifyTitle) {
+      bookClassify.forEach(item => {
+        bookClassifyTitle.push(item.title)
       })
     }
 
     let showStore = null
 
     // 显示库存数据
-    const showStoreEchart = function (goodClassifyTitle, total) {
+    const showStoreEchart = function (bookClassifyTitle, total) {
 
       // 去除没有商品的分类
       for (let i = 0; i < total.length; i++) {
         if (total[i] === 0) {
-          goodClassifyTitle.splice(i, 1)
+          bookClassifyTitle.splice(i, 1)
           total.splice(i, 1)
           // 上面删减后i会-1, 所以i要往后退一格, 否则紧邻的为0的数据就没有被检测到
           i -= 1
@@ -42,7 +42,7 @@ export default defineComponent({
 
 
       // echarts配置
-      const storeOption = getStoreOption(goodClassifyTitle, total)
+      const storeOption = getStoreOption(bookClassifyTitle, total)
 
       // 保存配置
       showStore.setOption(storeOption, true);
@@ -62,7 +62,7 @@ export default defineComponent({
         // console.log(params.name);
 
         // 查询当前分类是在总分类还是在具体分类里面, 如果是具体分类里面返回false
-        flag = goodClassify.some(item => {
+        flag = bookClassify.some(item => {
           return item.title === params.name
         })
 
@@ -70,12 +70,12 @@ export default defineComponent({
         let _id = ''
         if (flag) {
           // 获取到当前点击的元素
-          const one = goodClassify.find(item => {
+          const one = bookClassify.find(item => {
             return item.title === params.name
           })
           _id = one._id
           // 根据分类id查询商品
-          const res = await good.list({
+          const res = await book.list({
             _id
           })
           result(res)
@@ -109,11 +109,11 @@ export default defineComponent({
 
     // 获取库存信息
     const getStore = async function () {
-      const res = await good.getGoodStore()
+      const res = await book.getBookStore()
 
       result(res)
         .success(({ data: total }) => {
-          showStoreEchart(goodClassifyTitle, total)
+          showStoreEchart(bookClassifyTitle, total)
         })
     }
 
@@ -123,7 +123,7 @@ export default defineComponent({
       // 获取设置元素
       showStore = echarts.init(document.getElementById('showStore'));
       getStore()
-      getGoodClassify(goodClassifyTitle)
+      getBookClassify(bookClassifyTitle)
     })
 
     onUnmounted(() => {

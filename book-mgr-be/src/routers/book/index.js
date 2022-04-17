@@ -7,19 +7,19 @@ const _ = require('../../config/common');
 const { verify, getToken } = require('../../helpers/token')
 
 // 出库入库常量
-const GOOD_COUST = {
+const BOOK_COUST = {
   IN: 'IN_COUNT',
   OUT: 'OUT_COUNT',
 }
 
-const Good = mongoose.model('Good');
+const Book = mongoose.model('Book');
 const InventoryLog = mongoose.model('InventoryLog');
 // 获取分类表
-const Classify = mongoose.model('GoodClassify')
+const Classify = mongoose.model('BookClassify')
 
 // 把查找书籍封装成函数
-const findGoodOne = async (id) => {
-  const one = await Good.findOne({
+const findBookOne = async (id) => {
+  const one = await Book.findOne({
     _id: id,
   }).exec();
 
@@ -27,7 +27,7 @@ const findGoodOne = async (id) => {
 };
 
 const router = new Router({
-  prefix: '/good',
+  prefix: '/book',
 });
 
 // 列出书籍接口
@@ -60,7 +60,7 @@ router.get('/list', async (ctx) => {
   // 列出库存不为0的商品
   query.count = { $gt: 0 }
 
-  const list = await Good
+  const list = await Book
     // find可以接收一个对象 按照对象里面给的属性当做条件去查找数据
     .find(query)
     .sort({
@@ -74,7 +74,7 @@ router.get('/list', async (ctx) => {
     .exec()
 
   // 获取商品数量
-  const total = await Good.countDocuments();
+  const total = await Book.countDocuments();
 
   ctx.response.body = {
     code: 1,
@@ -94,10 +94,10 @@ router.delete('/:id', async (ctx) => {
     id,
   } = ctx.params;
 
-  const one = await findGoodOne(id);
+  const one = await findBookOne(id);
 
 
-  const delMsg = await Good.deleteOne({
+  const delMsg = await Book.deleteOne({
     _id: id,
   });
 
@@ -125,11 +125,11 @@ router.post('/update/count', async (ctx) => {
   num = Number(num)
 
   // 出库入库中，查找书籍
-  const good = await Good.findOne({
+  const book = await Book.findOne({
     _id: id
   }).exec()
 
-  if (!good) {
+  if (!book) {
     ctx.body = {
       code: 0,
       msg: '没有找到相关书籍',
@@ -138,7 +138,7 @@ router.post('/update/count', async (ctx) => {
   }
 
   // 如果找到了书籍
-  if (type === GOOD_COUST.IN) {
+  if (type === BOOK_COUST.IN) {
     // 入库操作
     num = Math.abs(num)
   } else {
@@ -147,10 +147,10 @@ router.post('/update/count', async (ctx) => {
   }
 
   // 改变count的值
-  good.count += num;
+  book.count += num;
 
   // 如果存量为负数
-  if (good.count < 0) {
+  if (book.count < 0) {
     ctx.body = {
       code: 0,
       msg: '书籍存量不足',
@@ -159,7 +159,7 @@ router.post('/update/count', async (ctx) => {
   }
 
   // 同步修改到数据库
-  const res = await good.save()
+  const res = await book.save()
 
   // 获取操作者
   const { account } = await verify(getToken(ctx))
@@ -168,7 +168,7 @@ router.post('/update/count', async (ctx) => {
   const log = new InventoryLog({
     type,
     num: Math.abs(num),
-    goodName: id,
+    bookName: id,
     user: account,
   })
 
@@ -189,7 +189,7 @@ router.post('/update', async (ctx) => {
     ...others
   } = ctx.request.body;
 
-  const one = await findGoodOne(id);
+  const one = await findBookOne(id);
 
   
   // 没有找到书
@@ -226,7 +226,7 @@ router.get('/detail/:id', async (ctx) => {
     id,
   } = ctx.params;
 
-  const one = await findGoodOne(id);
+  const one = await findBookOne(id);
 
   // 没有找到书
   if (!one) {
@@ -291,7 +291,7 @@ router.post('/addMany', async (ctx) => {
     });
   }
 
-  await Good.insertMany(arr);
+  await Book.insertMany(arr);
 
   ctx.body = {
     code: 1,
@@ -312,7 +312,7 @@ router.post('/add', async (ctx) => {
     count,
   } = getBody(ctx);
 
-  const good = new Good({
+  const book = new Book({
     name,
     price,
     expirationDate,
@@ -321,7 +321,7 @@ router.post('/add', async (ctx) => {
     count,
   });
 
-  const res = await good.save();
+  const res = await book.save();
 
   ctx.body = {
     data: res,
@@ -338,7 +338,7 @@ router.get('/getStore', async (ctx) => {
   const result = []
 
   // 获取全部商品
-  const res = await Good.find()
+  const res = await Book.find()
   // 获取分类数量
   const classify = await Classify
     .find()

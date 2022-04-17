@@ -4,7 +4,7 @@
       <a-card>
         <div class="list">
           <div class="item">
-            <div class="count">{{ _.BASE_INFO.LEFT.CONTENT(baseInfo.total.good) }}</div>
+            <div class="count">{{ _.BASE_INFO.LEFT.CONTENT(baseInfo.total.book) }}</div>
             <div class="title">{{ _.BASE_INFO.LEFT.TITLE }}</div>
           </div>
           <div class="item">
@@ -21,7 +21,7 @@
 
     <div class="table-list">
       <div class="left">
-        <goods
+        <books
           simple
         />
       </div>

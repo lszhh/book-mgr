@@ -5,7 +5,7 @@ const config  = require('../../project.config');
 
 // 获取三个模型
 const User = mongoose.model('User');
-const Good = mongoose.model('Good');
+const Book = mongoose.model('Book');
 const Log = mongoose.model('Log');
 
 const router = new Router({
@@ -15,7 +15,7 @@ const router = new Router({
 // 获取基本信息接口
 router.get('/base-info', async (ctx) => {
   // 查询总数
-  const goodTotal = await Good.countDocuments();
+  const bookTotal = await Book.countDocuments();
   const userTotal = await User.countDocuments();
   // 显示的数据才算！
   const logTotal = await Log.find({ show: true }).countDocuments();
@@ -25,7 +25,7 @@ router.get('/base-info', async (ctx) => {
     msg: '总览页基础信息获取成功',
     data: {
       total: {
-        good: goodTotal,
+        book: bookTotal,
         user: userTotal,
         log: logTotal,
       },

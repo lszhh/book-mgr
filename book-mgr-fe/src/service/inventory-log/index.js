@@ -3,7 +3,7 @@ import {
 } from '@/helpers/request';
 
 // 设置默认值
-export const list = (type = 'IN_COUNT', page = 1, size = 10, goodName = '') => {
+export const list = (type = 'IN_COUNT', page = 1, size = 10, bookName = '') => {
   return get(
     '/inventory-log/list', {
     type,

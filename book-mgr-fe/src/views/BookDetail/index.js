@@ -1,12 +1,12 @@
 import { defineComponent, isVNode, onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { result, formatTimestamp } from '@/helpers/utils';
-import { good, inventoryLog } from '@/service';
-import { getClassifyTitleById } from '@/helpers/good-classify';
+import { book, inventoryLog } from '@/service';
+import { getClassifyTitleById } from '@/helpers/book-classify';
 // icon标志引入并使用！
 import { CheckOutlined } from '@ant-design/icons-vue';
 import { message } from 'ant-design-vue';
-import Update from '@/views/Goods/Update/index.vue';
+import Update from '@/views/Books/Update/index.vue';
 
 const columns = [
   {
@@ -40,7 +40,7 @@ export default defineComponent({
 
     // 获取商品详细信息
     const getDetail = async () => {
-      const res = await good.detail(id);
+      const res = await book.detail(id);
 
       result(res)
         .success(({ data }) => {
@@ -70,19 +70,19 @@ export default defineComponent({
 
     // 删除操作
     const remove = async () => {
-      const res = await good.remove(id);
+      const res = await book.remove(id);
 
       result(res)
         .success(({ msg }) => {
           message.success(msg);
           // 使用useRoute下的replace方法，和push方法有一些区别，push还可以返回上一页，不合理  
-          router.replace('/goods');
+          router.replace('/books');
         });
     };
 
     // 更新操作
-    const update = (good) => {
-      Object.assign(detailInfo.value, good);
+    const update = (book) => {
+      Object.assign(detailInfo.value, book);
     };
 
     // 日志分页切换的时候

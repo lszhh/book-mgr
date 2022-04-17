@@ -1,5 +1,5 @@
 import { defineComponent, reactive } from 'vue';
-import { good } from '@/service';
+import { book } from '@/service';
 import { message } from 'ant-design-vue';
 import store from '@/store';
 // clone深拷贝方法
@@ -23,8 +23,8 @@ export default defineComponent({
   setup(props, context) {
     const addForm = reactive(clone(defaultFormData));
 
-    if (store.state.goodClassify.length) {
-      addForm.classify = store.state.goodClassify[0]._id;
+    if (store.state.bookClassify.length) {
+      addForm.classify = store.state.bookClassify[0]._id;
     }
 
     // 弹框Cancel按钮触发时要做的事情
@@ -46,7 +46,7 @@ export default defineComponent({
       form.producedDate = addForm.producedDate.valueOf();
       // 调用service下的接口中的add方法，并把表单数据传递过去服务器
       // 传过去后就可以拿到服务端相应的数据为res
-      const res = await good.add(form);
+      const res = await book.add(form);
 
       result(res)
         .success((d, { data }) => {

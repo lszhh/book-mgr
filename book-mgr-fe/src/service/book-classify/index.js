@@ -3,21 +3,21 @@ import {
 } from '@/helpers/request';
 
 export const add = (title) => {
-  return post('/good-classify/add', {
+  return post('/book-classify/add', {
     title,
-  });
+  });  
 };
 
 export const list = () => {
-  return get('/good-classify/list');
+  return get('/book-classify/list');
 };
 
 export const remove = (id) => {
-  return del(`/good-classify/${id}`);
+  return del(`/book-classify/${id}`);
 };
 
 export const updateTitle = (id, title) => {
-  return post('/good-classify/update/title', {
+  return post('/book-classify/update/title', {
     id,
     title,
   });

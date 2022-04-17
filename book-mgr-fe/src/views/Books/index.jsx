@@ -1,10 +1,10 @@
 import { defineComponent, ref, onMounted } from 'vue';
-import { good, goodClassify } from '@/service';
+import { book, bookClassify } from '@/service';
 import { useRouter } from 'vue-router';
 import { message, Modal, Input } from 'ant-design-vue';
 import { result, formatTimestamp } from '@/helpers/utils';
 import { getHeaders } from '@/helpers/request';
-import { getClassifyTitleById } from '@/helpers/good-classify';
+import { getClassifyTitleById } from '@/helpers/book-classify';
 import AddOne from './AddOne/index.vue';
 import _ from '@/config/common';
 import Update from './Update/index.vue';
@@ -76,12 +76,12 @@ export default defineComponent({
     const keyword = ref('');
     // 标记，返回按钮的显示与隐藏
     const isSearch = ref(false);
-    const curEditGood = ref({});
+    const curEditBook = ref({});
 
     // 获取商品列表
     const getList = async () => {
       // 调用list接口
-      const res = await good.list({
+      const res = await book.list({
         page: curPage.value,
         size: 10,
         keyword: keyword.value,
@@ -133,7 +133,7 @@ export default defineComponent({
     const remove = async ({ text: record }) => {
       const { _id } = record;
 
-      const res = await good.remove(_id);
+      const res = await book.remove(_id);
 
       result(res)
         .success(({ msg }) => {
@@ -155,16 +155,16 @@ export default defineComponent({
         // 这段东西叫jsx，是react框架中经常应用来描述模板，vue能用是因为集成好了相关插件
         content: (
           <div>
-            <Input class="__good_input_count" /> 
+            <Input class="__book_input_count" /> 
           </div>
         ),
         // 弹框点击OK时做的事情
         onOk: async () => {
           // 取输入框的值
-          const el = document.querySelector('.__good_input_count');
+          const el = document.querySelector('.__book_input_count');
           let num = el.value;
           // 调用接口
-          const res = await good.updateCount({
+          const res = await book.updateCount({
             id: record._id,
             num,
             type,
@@ -199,26 +199,26 @@ export default defineComponent({
     // 显示更新弹框
     const update = ({ record }) => {
       showUpdateModal.value = true;
-      curEditGood.value = record;
+      curEditBook.value = record;
     };
 
     // 子组件直接修改父的不好，提供该方法返回给子组件使用！
     // 更新列表的某一行数据
-    const updateCurGood = (newData) => {
-      Object.assign(curEditGood.value, newData);
-      console.log(curEditGood.value);
+    const updateCurBook = (newData) => {
+      Object.assign(curEditBook.value, newData);
+      console.log(curEditBook.value);
     };
 
     // 进入商品详情页
     const toDetail = ({ record }) => {
-      router.push(`/goods/${record._id}`);
+      router.push(`/books/${record._id}`);
     };
 
     const onUploadChange = ({ file }) => {
       if (file.response) {
         result(file.response)
           .success(async (key) => {
-            const res = await good.addMany(key);
+            const res = await book.addMany(key);
 
             result(res)
               .success(({ data: { addCount } }) => {
@@ -245,8 +245,8 @@ export default defineComponent({
       updateCount,
       showUpdateModal,
       update,
-      curEditGood,
-      updateCurGood,
+      curEditBook,
+      updateCurBook,
       toDetail,
       getList,
       getClassifyTitleById,

@@ -154,7 +154,7 @@ export const getSaleValueOption = (saleValueDate, inStock, outStock) => {
 }
 
 // 库存设置
-export const getStoreOption = (goodClassifyTitle, total) => {
+export const getStoreOption = (bookClassifyTitle, total) => {
   return {
     title: {
       text: '分类库存详情'
@@ -176,7 +176,7 @@ export const getStoreOption = (goodClassifyTitle, total) => {
       { left: 'center', top: 'center', width: '50%', height: '50%' },
     ],
     xAxis: {
-      data: goodClassifyTitle
+      data: bookClassifyTitle
     },
     yAxis: {},
     series: [{

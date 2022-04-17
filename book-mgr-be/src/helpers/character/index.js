@@ -13,7 +13,7 @@ const defaultCharacters = [
     title: '管理员',
     name: 'admin',
     power: {
-      good: [0],
+      book: [0],
       user: [0],
     },
   },
@@ -21,7 +21,7 @@ const defaultCharacters = [
     title: '成员',
     name: 'member',
     power: {
-      good: [1],
+      book: [1],
       user: [-1],
     },
   },
